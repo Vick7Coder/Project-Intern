@@ -82,19 +82,6 @@ function ListTodosComponent() {
         <div className="container">
             <h1>Things You Want To Do! </h1>
             {message && <div className="alert alert-warning">{message}</div>}
-            <div class="btn-group">
-                <button type="button" class="btn btn-info">Action</button>
-                <button type="button" class="btn btn-info dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <span class="sr-only">Toggle Dropdown</span>
-                </button>
-                <div class="dropdown-menu">
-                    <a class="dropdown-item" href="#">Action</a>
-                    <a class="dropdown-item" href="#">Another action</a>
-                    <a class="dropdown-item" href="#">Something else here</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#">Separated link</a>
-                </div>
-            </div>
             <div>
                 <table className='table'>
                     <thead>
