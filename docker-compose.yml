@@ -1,0 +1,31 @@
+services:
+  back-end:
+    build:
+      context: TodosManagement
+      dockerfile: Dockerfile
+    ports:
+      - 8019:8019
+    environment:
+      POSTGRES_URL: jdbc:postgresql://postgres-db/tododb
+      POSTGRES_USERNAME: postgres
+      POSTGRES_PASSWORD: abc123
+    depends_on:
+      - postgres-db
+  front-end:
+    build:
+      context: todo-app
+      dockerfile: Dockerfile
+    ports:
+      - 80:3000
+    depends_on:
+      - back-end
+  postgres-db:
+    image: postgres:latest
+    volumes:
+      - db:/var/lib/postgresql/data
+    restart: always
+    environment:
+      POSTGRES_DATABASE: tododb
+      POSTGRES_PASSWORD: abc123
+volumes:
+  db:
