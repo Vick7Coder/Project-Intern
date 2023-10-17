@@ -15,6 +15,14 @@ export const updateTodoApi
         return(
         apiClient.put(`/todo/${id}`, todo))};
     
-
 export const createTodoApi 
     = (todo) => apiClient.post(`/todo`, todo);
+
+export const switchFinishedApi 
+    = (id) => apiClient.put(`/todo/complete/${id}`);
+
+export const retrieveAllUnFinishedTodoApi
+    = () => apiClient.get(`/todo/unfinished-list`);
+
+export const retrieveAllFinishedTodoApi
+    = () => apiClient.get(`/todo/finished-list`);
