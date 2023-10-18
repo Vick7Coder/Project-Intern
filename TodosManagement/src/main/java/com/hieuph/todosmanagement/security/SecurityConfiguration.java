@@ -59,7 +59,7 @@ public class SecurityConfiguration {
                 .csrf(csrf -> csrf.disable())
                 .exceptionHandling(exceptionHandling -> exceptionHandling.authenticationEntryPoint(unAuthEntryPoint))
                 .sessionManagement(sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authorizeRequests(authorizeRequests -> authorizeRequests.requestMatchers("/api/auth/**", "/**").permitAll()
+                .authorizeRequests(authorizeRequests -> authorizeRequests.requestMatchers( "/api/v1/auth/**","/api/v2/auth/**", "/**").permitAll()
                         .anyRequest().authenticated());
 
         http.authenticationProvider(authenticationProvider());

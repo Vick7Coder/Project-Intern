@@ -41,7 +41,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @RequestMapping("/api/v2/auth")
-@RestController
+@RestController("auth/v2")
 @Slf4j
 public class AuthController {
     @Autowired

@@ -1,5 +1,6 @@
 package com.hieuph.todosmanagement.controller.v2;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.hieuph.todosmanagement.dto.request.CategoryDto;
 import com.hieuph.todosmanagement.dto.response.MessageResponse;
 import com.hieuph.todosmanagement.entity.Category;
@@ -22,7 +23,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RequestMapping("/api/v2/category")
-@RestController
+@RestController("category/v2")
 @Slf4j
 public class CategoryController {
     @Autowired
@@ -47,18 +48,24 @@ public class CategoryController {
 
     }
     @GetMapping("")
-    public ResponseEntity<?> categoryListOfUser(){
-        authentication = SecurityContextHolder.getContext().getAuthentication();
-        if(authentication instanceof AnonymousAuthenticationToken){
-            throw new BadRequestException("The request has failed." +
-                    " Please send the JWT of the user who needs to view the wishlist along with the request.");
+    public ResponseEntity<?> categoryListOfUser(@RequestParam(name = "sort") String sort,
+                                                @RequestParam(name = "range") String range,
+                                                @RequestParam(name = "filter") String filter){
+        try {
+            authentication = SecurityContextHolder.getContext().getAuthentication();
+            if(authentication instanceof AnonymousAuthenticationToken){
+                throw new BadRequestException("The request has failed." +
+                        " Please send the JWT of the user who needs to view the wishlist along with the request.");
+            }
+            User user = ((UserDetailImpl) authentication.getPrincipal()).getUser();
+            List<Category> categories = categoryService.getAll(user);
+            if (categories.size()<1){
+                throw new CustomExceptionRuntime(200, "Empty Category");
+            }
+            return ResponseEntity.ok(categories);
+        }catch (Exception exception){
+            throw new RuntimeException(exception);
         }
-        User user = ((UserDetailImpl) authentication.getPrincipal()).getUser();
-        List<Category> categories = categoryService.getAll(user);
-        if (categories.size()<1){
-            throw new CustomExceptionRuntime(200, "Empty Category");
-        }
-        return ResponseEntity.ok(categories);
     }
 
     @GetMapping("/enabled-list")

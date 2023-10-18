@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RequestMapping("/api/v1/category")
-@RestController
+@RestController("category/v1")
 @Slf4j
 public class CategoryController {
     @Autowired

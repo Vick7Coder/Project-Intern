@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RequestMapping("/api/v1/todo")
-@RestController
+@RestController("todo/v1")
 @Slf4j
 public class TodoController {
     @Autowired

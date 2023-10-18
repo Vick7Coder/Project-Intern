@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RequestMapping("/api/v1/note")
-@RestController
+@RestController("note/v1")
 @Slf4j
 public class NoteController {
     @Autowired
