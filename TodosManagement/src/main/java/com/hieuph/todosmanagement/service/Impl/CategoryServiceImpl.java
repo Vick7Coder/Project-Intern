@@ -1,9 +1,11 @@
 package com.hieuph.todosmanagement.service.Impl;
 
+import com.hieuph.todosmanagement.Filter.Category.CategoryFilter;
+import com.hieuph.todosmanagement.Filter.Category.GenericCategorySpecification;
 import com.hieuph.todosmanagement.dto.request.CategoryDto;
-import com.hieuph.todosmanagement.dto.response.MessageResponse;
+import com.hieuph.todosmanagement.dto.request.Paging.Pagination;
+import com.hieuph.todosmanagement.dto.request.Paging.PagingRequest;
 import com.hieuph.todosmanagement.entity.Category;
-import com.hieuph.todosmanagement.entity.Todo;
 import com.hieuph.todosmanagement.entity.User;
 import com.hieuph.todosmanagement.exception.BadRequestException;
 import com.hieuph.todosmanagement.exception.NotFoundException;
@@ -14,9 +16,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Predicate;
 
 @Service
 @Slf4j
@@ -25,10 +27,32 @@ public class CategoryServiceImpl implements CategoryService {
     private CategoryRepository categoryRepository;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private GenericCategorySpecification genericCategorySpecification;
 
     @Override
     public List<Category> getAll(User user) {
         return categoryRepository.findByUser(user);
+    }
+
+    @Override
+    public List<Category> getAll(User user, CategoryFilter categoryFilter) {
+        return categoryRepository.findByUser(user,genericCategorySpecification.generic(categoryFilter).toString());
+    }
+
+    @Override
+    public List<Category> getAll(User user, PagingRequest pagingRequest, CategoryFilter categoryFilter) {
+        List<Category> categoryList = categoryRepository
+                .findByUser(user, Pagination.initPageable(pagingRequest), genericCategorySpecification.generic(categoryFilter))
+                .getContent();
+        List<Category> respList =   new ArrayList<>();
+        if(!categoryList.isEmpty()){
+            for(int i =0; i < categoryList.size(); i++){
+                respList.add(categoryList.get(i));
+            }
+            return respList;
+        }
+        return null;
     }
 
     @Override
@@ -82,5 +106,10 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public Category findById(int id) {
         return categoryRepository.findById(id).orElseThrow(() -> new NotFoundException("Not Found Category!"));
+    }
+
+    @Override
+    public Long count(CategoryFilter categoryFilter) {
+        return categoryRepository.count(genericCategorySpecification.generic(categoryFilter));
     }
 }
