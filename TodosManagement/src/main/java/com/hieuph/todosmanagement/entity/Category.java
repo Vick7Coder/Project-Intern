@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Entity
 @Table(name = "category")
-@JsonIgnoreProperties({"user"})
+//@JsonIgnoreProperties({"user"})
 public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

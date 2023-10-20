@@ -36,8 +36,6 @@ import java.util.List;
 public class CategoryController {
     @Autowired
     private CategoryService categoryService;
-    @Autowired
-    private UserService userService;
 
     @Autowired
     private ObjectMapper objectMapper;
@@ -53,15 +51,15 @@ public class CategoryController {
         User cat = user;
         if (user != null){
             categoryService.create(categoryDto, cat);
-            return ResponseEntity.ok(new MessageResponse("Create successfully!"));
+            return ResponseEntity.ok(categoryService.findByName(categoryDto.getName()));
         }
         return ResponseEntity.badRequest().body(new InvalidVerificationTokenException("User not Found!"));
 
     }
     @GetMapping("")
-    public ResponseEntity<?> categoryListOfUser(@RequestParam(name = "sort") String sort,
+    public ResponseEntity<?> categoryListOfUser(@RequestParam(name = "filter") String filter,
                                                 @RequestParam(name = "range") String range,
-                                                @RequestParam(name = "filter") String filter,
+                                                @RequestParam(name = "sort") String sort,
                                                 HttpServletRequest request,
                                                 HttpServletResponse response){
         try {
@@ -75,7 +73,12 @@ public class CategoryController {
             List<Integer> _range = objectMapper.readValue(range, ArrayList.class);
             CategoryFilter _filter = objectMapper.readValue(filter, CategoryFilter.class);
             StringBuilder contentRange = new StringBuilder("category ");
-            contentRange.append(_range.get(0)).append("-").append(_range.get(1)).append("/").append(categoryService.count(_filter));
+            contentRange.append(_range.get(0))
+                    .append("-")
+                    .append(_range.get(1))
+                    .append("/")
+                    .append(categoryService
+                            .count(_filter));
             response.setHeader("Content-Range", contentRange.toString());
             PagingRequest pagingRequest = new PagingRequest();
             pagingRequest.setLimit(_range.get(1) - _range.get(0) + 1);
@@ -84,13 +87,13 @@ public class CategoryController {
             sorter.setName(_sort.get(0));
             sorter.setBy(_sort.get(1));
             pagingRequest.setSorter(sorter);
-
-            List<Category> categories = categoryService.getAll(user, pagingRequest, _filter);
+            List<Category> categories = categoryService.getAll(_filter, pagingRequest);
+            System.out.println(categories);
             if (categories.size()<1){
                 throw new CustomExceptionRuntime(200, "Empty Category");
             }
             return ResponseEntity.ok(categories);
-        }catch (Exception exception){
+        }catch (JsonProcessingException exception){
             throw new RuntimeException(exception);
         }
     }
@@ -112,7 +115,7 @@ public class CategoryController {
     @PutMapping("/{id}")
     public ResponseEntity<?> updateCategory(@PathVariable int id, @Valid @RequestBody CategoryDto categoryDto){
         categoryService.update(id, categoryDto);
-        return ResponseEntity.ok(new MessageResponse("Update Category Successfully"));
+        return ResponseEntity.ok(categoryService.get(id));
     }
     @PutMapping("/enable/{id}")
     public ResponseEntity<?> enableCatgory(@PathVariable int id){

@@ -9,10 +9,10 @@ import com.hieuph.todosmanagement.entity.User;
 import java.util.List;
 
 public interface CategoryService {
-    List<Category> getAll(User user);
+    List<Category> getAll(Integer userId);
 
-    List<Category> getAll(User user, CategoryFilter categoryFilter);
-    List<Category> getAll(User user, PagingRequest pagingRequest, CategoryFilter categoryFilter);
+//    List<Category> getAll(Integer userId, CategoryFilter categoryFilter);
+    List<Category> getAll(CategoryFilter categoryFilter, PagingRequest pagingRequest);
 
     List<Category> getAllEnabled(Integer userId);
 
@@ -25,6 +25,9 @@ public interface CategoryService {
     void delete(int id);
 
     Category findById(int id);
+
+
+    Category findByName(String name);
 
     Long count(CategoryFilter categoryFilter);
 

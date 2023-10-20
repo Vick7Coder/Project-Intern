@@ -32,7 +32,7 @@ public class UserController {
                     " Please send the JWT of the user who needs to view the wishlist along with the request.");
         }
         User user = ((UserDetailImpl) authentication.getPrincipal()).getUser();
-        return ResponseEntity.ok(new UserI4Response(user));
+        return ResponseEntity.ok(new UserI4Response(user.getId(), user.getUsername(), user.getEmail(), user.isEnabled(), user.getRoles()));
     }
     @PutMapping("/change-password")
     public ResponseEntity<?> changePassword(@RequestBody PasswordDto passwordDto){

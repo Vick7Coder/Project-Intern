@@ -1,5 +1,6 @@
 package com.hieuph.todosmanagement.repository;
 
+import com.hieuph.todosmanagement.Filter.Category.CategoryFilter;
 import com.hieuph.todosmanagement.entity.Category;
 import com.hieuph.todosmanagement.entity.User;
 import org.springframework.data.domain.Page;
@@ -15,14 +16,18 @@ import java.util.Optional;
 
 @Repository
 public interface CategoryRepository extends JpaRepository<Category, Integer>, JpaSpecificationExecutor<Category> {
-    List<Category> findByUser(User user);
-    @Query("select c from Category c where c.user = ?1 and c.name LIKE %?2%")
-    List<Category> findByUser(User user, String name);
+    @Query("select c from Category c where c.user.id = ?#{#userId}")
+    List<Category> findByUser(Integer userId);
+
+    @Query("select c from Category c where c.user = ?#{#user}")
     Page<Category> findByUser(User user, Pageable pageable, Specification<Category> spec);
     @Query("select c from Category c where c.user.id = ?1 and c.enabled = true ")
     List<Category> findAllEnableByUser(Integer userId);
     @Query("select c from Category c where c.user.id = ?1 and c.name = ?2 ")
     Optional<Category> findByName(Integer userId, String name);
+
+    @Query("select c from Category c where c.name = ?1")
+    Category findByName(String name);
 
     Optional<Category> findById(int id);
 

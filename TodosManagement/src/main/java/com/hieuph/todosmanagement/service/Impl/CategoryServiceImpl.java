@@ -31,23 +31,21 @@ public class CategoryServiceImpl implements CategoryService {
     private GenericCategorySpecification genericCategorySpecification;
 
     @Override
-    public List<Category> getAll(User user) {
-        return categoryRepository.findByUser(user);
+    public List<Category> getAll(Integer userId) {
+        return categoryRepository.findByUser(userId);
     }
 
     @Override
-    public List<Category> getAll(User user, CategoryFilter categoryFilter) {
-        return categoryRepository.findByUser(user,genericCategorySpecification.generic(categoryFilter).toString());
-    }
-
-    @Override
-    public List<Category> getAll(User user, PagingRequest pagingRequest, CategoryFilter categoryFilter) {
+    public List<Category> getAll(CategoryFilter categoryFilter, PagingRequest pagingRequest) {
         List<Category> categoryList = categoryRepository
-                .findByUser(user, Pagination.initPageable(pagingRequest), genericCategorySpecification.generic(categoryFilter))
+                .findAll(genericCategorySpecification.generic(categoryFilter), Pagination.initPageable(pagingRequest))
                 .getContent();
+        System.out.println(categoryFilter.getName());
+
         List<Category> respList =   new ArrayList<>();
         if(!categoryList.isEmpty()){
             for(int i =0; i < categoryList.size(); i++){
+                System.out.println(categoryList.get(i).toString());
                 respList.add(categoryList.get(i));
             }
             return respList;
@@ -106,6 +104,11 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public Category findById(int id) {
         return categoryRepository.findById(id).orElseThrow(() -> new NotFoundException("Not Found Category!"));
+    }
+
+    @Override
+    public Category findByName(String name) {
+        return categoryRepository.findByName(name);
     }
 
     @Override

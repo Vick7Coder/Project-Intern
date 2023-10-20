@@ -5,6 +5,7 @@ import com.hieuph.todosmanagement.dto.request.PasswordDto;
 import com.hieuph.todosmanagement.dto.request.UserDto;
 import com.hieuph.todosmanagement.dto.response.MessageResponse;
 import com.hieuph.todosmanagement.dto.response.UserI4Response;
+import com.hieuph.todosmanagement.entity.ERole;
 import com.hieuph.todosmanagement.entity.PasswordResetToken;
 import com.hieuph.todosmanagement.entity.User;
 import com.hieuph.todosmanagement.entity.VerificationToken;
@@ -74,8 +75,13 @@ public class AuthController {
             List<String> roles =userDetail.getAuthorities().stream()
                     .map(i -> i.getAuthority())
                     .collect(Collectors.toList());
-            return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, jwtCookie.toString())
-                    .body(new UserI4Response(userDetail.getUser()));
+            if(roles.contains("ROLE_ADMIN")){
+                return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, jwtCookie.toString())
+                        .body(new UserI4Response(user.getId(), user.getUsername(), user.getEmail(), user.isEnabled(), user.getRoles()));
+            }
+            else {
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new MessageResponse("You aren't admin!"));
+            }
         }
         catch (Exception exception){
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new MessageResponse("Invalid username or password!"));

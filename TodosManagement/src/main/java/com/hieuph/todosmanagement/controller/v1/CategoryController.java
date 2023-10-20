@@ -54,7 +54,7 @@ public class CategoryController {
                     " Please send the JWT of the user who needs to view the wishlist along with the request.");
         }
         User user = ((UserDetailImpl) authentication.getPrincipal()).getUser();
-        List<Category> categories = categoryService.getAll(user);
+        List<Category> categories = categoryService.getAll(user.getId());
         if (categories.size()<1){
             throw new CustomExceptionRuntime(200, "Empty Category");
         }

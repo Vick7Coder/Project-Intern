@@ -75,7 +75,7 @@ public class AuthController {
                     .map(i -> i.getAuthority())
                     .collect(Collectors.toList());
             return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, jwtCookie.toString())
-                    .body(new UserI4Response(userDetail.getUser()));
+                    .body(new UserI4Response(user.getId(), user.getUsername(), user.getEmail(), user.isEnabled(), user.getRoles()));
         }
         catch (Exception exception){
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new MessageResponse("Invalid username or password!"));
