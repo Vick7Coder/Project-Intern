@@ -1,6 +1,8 @@
 package com.hieuph.todosmanagement.service;
 
+import com.hieuph.todosmanagement.Filter.Todo.TodoFilter;
 import com.hieuph.todosmanagement.dto.request.CategoryDto;
+import com.hieuph.todosmanagement.dto.request.Paging.PagingRequest;
 import com.hieuph.todosmanagement.dto.request.TodoDto;
 import com.hieuph.todosmanagement.entity.Category;
 import com.hieuph.todosmanagement.entity.Todo;
@@ -10,6 +12,8 @@ import java.util.List;
 
 public interface TodoService {
     List<Todo> getAll(User user);
+
+    List<Todo> getAll(TodoFilter todoFilter, PagingRequest pagingRequest);
 
     List<Todo> getAllByCategory(User user, Integer catId);
 
@@ -24,4 +28,6 @@ public interface TodoService {
     void delete(int id);
 
     void switchState(int id);
+
+    Long count(TodoFilter todoFilter);
 }

@@ -1,5 +1,10 @@
 package com.hieuph.todosmanagement.service.Impl;
 
+import com.hieuph.todosmanagement.Filter.Todo.GenericTodoSpecification;
+import com.hieuph.todosmanagement.Filter.Todo.TodoFilter;
+import com.hieuph.todosmanagement.Filter.User.GenericUserSpecification;
+import com.hieuph.todosmanagement.dto.request.Paging.Pagination;
+import com.hieuph.todosmanagement.dto.request.Paging.PagingRequest;
 import com.hieuph.todosmanagement.dto.request.TodoDto;
 import com.hieuph.todosmanagement.entity.Category;
 import com.hieuph.todosmanagement.entity.Note;
@@ -14,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -27,9 +33,28 @@ public class TodoServiceImpl implements TodoService {
     private CategoryRepository categoryRepository;
     @Autowired
     private NoteRepository noteRepository;
+    @Autowired
+    private GenericTodoSpecification genericTodoSpecification;
     @Override
     public List<Todo> getAll(User user) {
         return todoRepository.findByUser(user);
+    }
+
+    @Override
+    public List<Todo> getAll(TodoFilter todoFilter, PagingRequest pagingRequest) {
+        List<Todo> todoList = todoRepository
+                .findAll(genericTodoSpecification.generic(todoFilter), Pagination.initPageable(pagingRequest))
+                .getContent();
+
+        List<Todo> respList =   new ArrayList<>();
+        if(!todoList.isEmpty()){
+            for(int i =0; i < todoList.size(); i++){
+                System.out.println(todoList.get(i).toString());
+                respList.add(todoList.get(i));
+            }
+            return respList;
+        }
+        return null;
     }
 
     @Override
@@ -117,5 +142,10 @@ public class TodoServiceImpl implements TodoService {
         Todo todo = todoRepository.findById(id).orElseThrow(() -> new NotFoundException("Not Found Todo with ID: "+id));
         todo.setDone(!todo.isDone());
         todoRepository.save(todo);
+    }
+
+    @Override
+    public Long count(TodoFilter todoFilter) {
+        return todoRepository.count(genericTodoSpecification.generic(todoFilter));
     }
 }

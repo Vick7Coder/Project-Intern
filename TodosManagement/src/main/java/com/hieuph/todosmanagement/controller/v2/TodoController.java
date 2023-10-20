@@ -1,5 +1,11 @@
 package com.hieuph.todosmanagement.controller.v2;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.hieuph.todosmanagement.Filter.Todo.TodoFilter;
+import com.hieuph.todosmanagement.Filter.User.UserFilter;
+import com.hieuph.todosmanagement.dto.request.Paging.PagingRequest;
+import com.hieuph.todosmanagement.dto.request.Paging.Sorter;
 import com.hieuph.todosmanagement.dto.request.TodoDto;
 import com.hieuph.todosmanagement.dto.response.MessageResponse;
 import com.hieuph.todosmanagement.entity.Todo;
@@ -8,6 +14,8 @@ import com.hieuph.todosmanagement.exception.BadRequestException;
 import com.hieuph.todosmanagement.exception.CustomExceptionRuntime;
 import com.hieuph.todosmanagement.security.service.UserDetailImpl;
 import com.hieuph.todosmanagement.service.TodoService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +25,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RequestMapping("/api/v2/todo")
@@ -25,6 +34,8 @@ import java.util.List;
 public class TodoController {
     @Autowired
     private TodoService todoService;
+    @Autowired
+    private ObjectMapper objectMapper;
     private Authentication authentication;
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable int id){
@@ -54,18 +65,43 @@ public class TodoController {
     }
 
     @GetMapping("")
-    public ResponseEntity<?> getAllTodoOfUser(){
-        authentication = SecurityContextHolder.getContext().getAuthentication();
-        if(authentication instanceof AnonymousAuthenticationToken){
-            throw new BadRequestException("The request has failed." +
-                    " Please send the JWT of the user who needs to view the wishlist along with the request.");
+    public ResponseEntity<?> todoList(@RequestParam(name = "filter") String filter,
+                                      @RequestParam(name = "range") String range,
+                                      @RequestParam(name = "sort") String sort,
+                                      HttpServletRequest request,
+                                      HttpServletResponse response){
+        try {
+            authentication = SecurityContextHolder.getContext().getAuthentication();
+            if(authentication instanceof AnonymousAuthenticationToken){
+                throw new BadRequestException("The request has failed." +
+                        " Please send the JWT of the user who needs to view the wishlist along with the request.");
+            }
+            List<String> _sort = objectMapper.readValue(sort, ArrayList.class);
+            List<Integer> _range = objectMapper.readValue(range, ArrayList.class);
+            TodoFilter _filter = objectMapper.readValue(filter, TodoFilter.class);
+            StringBuilder contentRange = new StringBuilder("todo ");
+            contentRange.append(_range.get(0))
+                    .append("-")
+                    .append(_range.get(1))
+                    .append("/")
+                    .append(todoService
+                            .count(_filter));
+            response.setHeader("Content-Range", contentRange.toString());
+            PagingRequest pagingRequest = new PagingRequest();
+            pagingRequest.setLimit(_range.get(1) - _range.get(0) + 1);
+            pagingRequest.setPage((int) Math.ceil(_range.get(0) / pagingRequest.getLimit() + 1));
+            Sorter sorter = new Sorter();
+            sorter.setName(_sort.get(0));
+            sorter.setBy(_sort.get(1));
+            pagingRequest.setSorter(sorter);
+            List<Todo> todoList = todoService.getAll(_filter, pagingRequest);
+            if (todoList.size()<1){
+                throw new CustomExceptionRuntime(200, "Empty Category");
+            }
+            return ResponseEntity.ok(todoList);
+        }catch (JsonProcessingException exception){
+            throw new RuntimeException(exception);
         }
-        User user = ((UserDetailImpl) authentication.getPrincipal()).getUser();
-        List<Todo> todos = todoService.getAll(user);
-        if (todos.size()<1){
-            return ResponseEntity.ok(new MessageResponse("Empty Todo!"));
-        }
-        return ResponseEntity.ok(todos);
     }
     @GetMapping("/category/{id}")
     public ResponseEntity<?> getAllTodoByCategoryOfUser(@PathVariable int id){
