@@ -1,10 +1,11 @@
 package com.hieuph.todosmanagement.service.Impl;
 
+import com.hieuph.todosmanagement.Filter.User.GenericUserSpecification;
+import com.hieuph.todosmanagement.Filter.User.UserFilter;
+import com.hieuph.todosmanagement.dto.request.Paging.Pagination;
+import com.hieuph.todosmanagement.dto.request.Paging.PagingRequest;
 import com.hieuph.todosmanagement.dto.request.UserDto;
-import com.hieuph.todosmanagement.entity.ERole;
-import com.hieuph.todosmanagement.entity.PasswordResetToken;
-import com.hieuph.todosmanagement.entity.Role;
-import com.hieuph.todosmanagement.entity.User;
+import com.hieuph.todosmanagement.entity.*;
 import com.hieuph.todosmanagement.exception.NotFoundException;
 import com.hieuph.todosmanagement.repository.RoleRepository;
 import com.hieuph.todosmanagement.repository.UserRepository;
@@ -16,10 +17,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @Service
 @Slf4j
@@ -32,6 +30,8 @@ public class UserServiceImpl implements UserService {
     private PasswordEncoder passwordEncoder;
     @Autowired
     private RoleRepository roleRepository;
+    @Autowired
+    private GenericUserSpecification genericUserSpecification;
     @Override
     public User register(UserDto userDto) {
 
@@ -60,8 +60,20 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> getAll() {
-        return userRepository.findAll();
+    public List<User> getAll(UserFilter userFilter, PagingRequest pagingRequest) {
+        List<User> userList = userRepository
+                .findAll(genericUserSpecification.generic(userFilter), Pagination.initPageable(pagingRequest))
+                .getContent();
+
+        List<User> respList =   new ArrayList<>();
+        if(!userList.isEmpty()){
+            for(int i =0; i < userList.size(); i++){
+                System.out.println(userList.get(i).toString());
+                respList.add(userList.get(i));
+            }
+            return respList;
+        }
+        return null;
     }
 
     @Override
@@ -80,5 +92,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean oldPasswordIsValid(User user, String oldPassword) {
         return passwordEncoder.matches(oldPassword, user.getPassword());
+    }
+
+    @Override
+    public Long count(UserFilter userFilter) {
+        return userRepository.count(genericUserSpecification.generic(userFilter));
     }
 }

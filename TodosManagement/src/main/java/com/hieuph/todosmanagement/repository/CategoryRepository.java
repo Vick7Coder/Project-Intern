@@ -19,8 +19,6 @@ public interface CategoryRepository extends JpaRepository<Category, Integer>, Jp
     @Query("select c from Category c where c.user.id = ?#{#userId}")
     List<Category> findByUser(Integer userId);
 
-    @Query("select c from Category c where c.user = ?#{#user}")
-    Page<Category> findByUser(User user, Pageable pageable, Specification<Category> spec);
     @Query("select c from Category c where c.user.id = ?1 and c.enabled = true ")
     List<Category> findAllEnableByUser(Integer userId);
     @Query("select c from Category c where c.user.id = ?1 and c.name = ?2 ")

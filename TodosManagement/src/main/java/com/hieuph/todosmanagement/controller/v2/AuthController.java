@@ -100,7 +100,6 @@ public class AuthController {
     @PreAuthorize("permitAll")
     public ResponseEntity<?> resetPasswordRequest(@RequestBody PasswordDto passwordDto, final HttpServletRequest request)
         throws MessagingException, UnsupportedEncodingException{
-        System.out.println(passwordDto.getEmail());
         Optional<User> user = userService.getUserByEmail(passwordDto.getEmail());
         if(!user.isPresent()){
             System.out.println("null"+passwordDto.getEmail());

@@ -68,7 +68,6 @@ public class CategoryController {
                 throw new BadRequestException("The request has failed." +
                         " Please send the JWT of the user who needs to view the wishlist along with the request.");
             }
-            User user = ((UserDetailImpl) authentication.getPrincipal()).getUser();
             List<String> _sort = objectMapper.readValue(sort, ArrayList.class);
             List<Integer> _range = objectMapper.readValue(range, ArrayList.class);
             CategoryFilter _filter = objectMapper.readValue(filter, CategoryFilter.class);
@@ -88,7 +87,6 @@ public class CategoryController {
             sorter.setBy(_sort.get(1));
             pagingRequest.setSorter(sorter);
             List<Category> categories = categoryService.getAll(_filter, pagingRequest);
-            System.out.println(categories);
             if (categories.size()<1){
                 throw new CustomExceptionRuntime(200, "Empty Category");
             }
