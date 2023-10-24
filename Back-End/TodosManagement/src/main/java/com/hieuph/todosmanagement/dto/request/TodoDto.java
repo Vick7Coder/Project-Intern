@@ -8,6 +8,7 @@ import java.util.Date;
 
 @Data
 public class TodoDto {
+    private int id = 50914;
     @NotNull(message = "Not null!")
     @NotEmpty(message = "Empty description!")
     private String description;
@@ -15,4 +16,6 @@ public class TodoDto {
     private String targetDate;
     @NotNull(message = "Not null!")
     private String catId;
+    @NotNull(message = "NotNull")
+    private String username;
 }

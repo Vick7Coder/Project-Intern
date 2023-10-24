@@ -10,4 +10,6 @@ public class CategoryDto {
     @NotNull(message = "Null name!")
     private String name;
     private boolean enabled = true;
+    @NotNull(message = "null user")
+    private String username;
 }

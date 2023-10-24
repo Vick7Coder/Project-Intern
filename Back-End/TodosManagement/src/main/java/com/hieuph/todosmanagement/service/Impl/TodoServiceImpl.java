@@ -81,7 +81,6 @@ public class TodoServiceImpl implements TodoService {
 
         Date targetDate;
         Integer cate = Integer.parseInt(todoDto.getCatId());
-        System.out.println(cate instanceof Integer);
         try{
             targetDate = sdf.parse(todoDto.getTargetDate());
             Date date = Calendar.getInstance().getTime();

@@ -10,11 +10,11 @@ import lombok.Setter;
 @NoArgsConstructor
 public class TodoFilter {
     public static final String FIELD_DESCRIPTION = "description";
-    public static final String FIELD_CATEGORY = "category.id";
-    public static final String FIELD_USER = "user.id";
+    public static final String FIELD_CATEGORY = "category";
+    public static final String FIELD_USER = "user";
 
     private String description;
-    private int category;
-    private int user;
+    private Long category;
+    private Long user;
 
 }

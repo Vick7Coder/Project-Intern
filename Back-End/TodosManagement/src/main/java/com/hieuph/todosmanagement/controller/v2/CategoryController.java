@@ -39,6 +39,9 @@ public class CategoryController {
 
     @Autowired
     private ObjectMapper objectMapper;
+
+    @Autowired
+    private UserService userService;
     private Authentication authentication;
     @PostMapping("")
     public ResponseEntity<?> addCategory(@Valid @RequestBody CategoryDto categoryDto){
@@ -48,9 +51,10 @@ public class CategoryController {
                     " Please send the JWT of the user who needs to view the wishlist along with the request.");
         }
         User user = ((UserDetailImpl) authentication.getPrincipal()).getUser();
-        User cat = user;
+        User inp = userService.getUserByUsername(categoryDto.getUsername());
         if (user != null){
-            categoryService.create(categoryDto, cat);
+            System.out.println(inp);
+            categoryService.create(categoryDto, inp);
             return ResponseEntity.ok(categoryService.findByName(categoryDto.getName()));
         }
         return ResponseEntity.badRequest().body(new InvalidVerificationTokenException("User not Found!"));

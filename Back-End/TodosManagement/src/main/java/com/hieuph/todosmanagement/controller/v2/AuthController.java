@@ -79,14 +79,12 @@ public class AuthController {
                 return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, jwtCookie.toString())
                         .body(new UserI4Response(user.getId(), user.getUsername(), user.getEmail(), user.isEnabled(), user.getRoles()));
             }
-            else {
-                return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new MessageResponse("You aren't admin!"));
-            }
         }
         catch (Exception exception){
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new MessageResponse("Invalid username or password!"));
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new MessageResponse("Invalid username/password!"));
 
         }
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new MessageResponse("You aren't admin!"));
     }
     @PostMapping("/logout")
     public ResponseEntity<?> logOut(){

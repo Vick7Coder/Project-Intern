@@ -30,11 +30,11 @@ public class GenericTodoSpecification {
         if (todoFilter.getDescription() != null) {
             specifications.add(genericSpecification.like(TodoFilter.FIELD_DESCRIPTION, "%" + todoFilter.getDescription() + "%"));
         }
-        if (Objects.nonNull(todoFilter.getUser())) {
+        if (todoFilter.getUser() != null) {
             specifications.add(todojoinEqualUser.joinEqual(TodoFilter.FIELD_USER, "id", todoFilter.getUser()));
         }
-        if (Objects.nonNull(todoFilter.getCategory())) {
-            specifications.add(todojoinEqualCategory.joinEqual(TodoFilter.FIELD_USER, "id", todoFilter.getCategory()));
+        if (todoFilter.getCategory() != null) {
+            specifications.add(todojoinEqualCategory.joinEqual(TodoFilter.FIELD_CATEGORY, "id", todoFilter.getCategory()));
         }
 
         List<Specification<Todo>> result = new ArrayList<>();

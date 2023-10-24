@@ -48,7 +48,7 @@ jwtCookieName: babysharkdodododo
 
 
 
-logging:
-  pattern:
-  level:
-    org.hibernate.orm.jdbc.bind: trace
+#logging:
+#  pattern:
+#  level:
+#    org.hibernate.orm.jdbc.bind: trace

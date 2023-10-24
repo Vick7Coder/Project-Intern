@@ -14,6 +14,7 @@ import com.hieuph.todosmanagement.exception.BadRequestException;
 import com.hieuph.todosmanagement.exception.CustomExceptionRuntime;
 import com.hieuph.todosmanagement.security.service.UserDetailImpl;
 import com.hieuph.todosmanagement.service.TodoService;
+import com.hieuph.todosmanagement.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
@@ -34,6 +35,8 @@ import java.util.List;
 public class TodoController {
     @Autowired
     private TodoService todoService;
+    @Autowired
+    private UserService userService;
     @Autowired
     private ObjectMapper objectMapper;
     private Authentication authentication;
@@ -57,9 +60,10 @@ public class TodoController {
         }
 
         User user = ((UserDetailImpl) authentication.getPrincipal()).getUser();
+        User inp = userService.getUserByUsername(todoDto.getUsername());
         if (user != null){
-            todoService.create(todoDto, user);
-            return ResponseEntity.ok(new MessageResponse("Create successfully!"));
+            todoService.create(todoDto, inp);
+            return ResponseEntity.ok(todoDto);
         }
         return ResponseEntity.badRequest().body(new MessageResponse("User or Category is not Found!"));
     }
@@ -95,7 +99,7 @@ public class TodoController {
             sorter.setBy(_sort.get(1));
             pagingRequest.setSorter(sorter);
             List<Todo> todoList = todoService.getAll(_filter, pagingRequest);
-            if (todoList.size()<1){
+            if (todoList == null){
                 throw new CustomExceptionRuntime(200, "Empty Category");
             }
             return ResponseEntity.ok(todoList);

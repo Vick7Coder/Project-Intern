@@ -30,4 +30,5 @@ public interface TodoService {
     void switchState(int id);
 
     Long count(TodoFilter todoFilter);
+
 }
