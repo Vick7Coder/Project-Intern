@@ -8,11 +8,11 @@ spring:
     url: jdbc:postgresql://localhost:5432/tododb
     username: postgres
     password: abc123
-  sql:
-    init:
-      mode: embedded
-      data-locations: classpath:/data.sql
-  # JPA properties
+#  sql:
+#    init:
+#      mode: embedded
+#      data-locations: classpath:/data.sql
+#  # JPA properties
   jpa:
     hibernate:
       ddl-auto: update # When you launch the application for the first time - switch "none" at "create"

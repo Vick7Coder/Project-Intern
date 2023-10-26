@@ -39,6 +39,7 @@ public class CategoryController {
         }
         User user = ((UserDetailImpl) authentication.getPrincipal()).getUser();
         User cat = user;
+        categoryDto.setUsername(cat.getUsername());
         if (user != null){
             categoryService.create(categoryDto, cat);
             return ResponseEntity.ok(new MessageResponse("Create successfully!"));

@@ -13,7 +13,7 @@ export const authProvider = {
         try{
             const response = await fetch(request);
             if(response.status < 200 || response.status >= 300){
-                throw new Error(response.message);
+                throw new Error(response.statusText);
             }
             const auth = await response.json();
             localStorage.setItem('auth', JSON.stringify(auth));

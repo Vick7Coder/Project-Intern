@@ -8,7 +8,8 @@ import {
     EditButton,
     TextInput,
     SelectInput,
-    useGetList
+    useGetList,
+    useRecordContext
 } from "react-admin";
 
 const CategoryFilters = [
@@ -16,7 +17,7 @@ const CategoryFilters = [
 ];
 
 export const CategoryList = () => (
-    <List filters={CategoryFilters}>
+    <List filters={CategoryFilters} >
         <Datagrid>
             <TextField source="name" />
             <TextField source="user.username" />

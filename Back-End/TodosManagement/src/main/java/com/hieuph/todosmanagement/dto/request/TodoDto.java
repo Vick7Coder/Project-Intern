@@ -16,6 +16,5 @@ public class TodoDto {
     private String targetDate;
     @NotNull(message = "Not null!")
     private String catId;
-    @NotNull(message = "NotNull")
     private String username;
 }

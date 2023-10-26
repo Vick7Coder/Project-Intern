@@ -14,6 +14,7 @@ import com.hieuph.todosmanagement.exception.NotFoundException;
 import com.hieuph.todosmanagement.repository.CategoryRepository;
 import com.hieuph.todosmanagement.repository.NoteRepository;
 import com.hieuph.todosmanagement.repository.TodoRepository;
+import com.hieuph.todosmanagement.repository.UserRepository;
 import com.hieuph.todosmanagement.service.TodoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,6 +34,8 @@ public class TodoServiceImpl implements TodoService {
     private CategoryRepository categoryRepository;
     @Autowired
     private NoteRepository noteRepository;
+    @Autowired
+    private UserRepository userRepository;
     @Autowired
     private GenericTodoSpecification genericTodoSpecification;
     @Override

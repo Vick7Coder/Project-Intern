@@ -48,7 +48,7 @@ public class TodoController {
     @PutMapping("/{id}")
     public ResponseEntity<?> update(@PathVariable int id, @Valid @RequestBody TodoDto todoDto){
         todoService.update(id, todoDto);
-        return ResponseEntity.ok(new MessageResponse("Update Todo Successfully"));
+        return ResponseEntity.ok(todoService.findById(id));
     }
 
     @PostMapping("")

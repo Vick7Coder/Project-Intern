@@ -1,4 +1,6 @@
 import { useState } from "react";
+
+import { useParams } from 'react-router-dom'
 import {
     List,
     Datagrid,
@@ -15,7 +17,9 @@ import {
     FormDataConsumer,
     EditButton,
     Edit,
-    useRecordContext
+    useGetOne,
+    useNotify,
+    useRedirect
 } from "react-admin";
 
 const TodoFilter = [
@@ -39,27 +43,35 @@ export const TodoList = () => (
 );
 
 export const TodoEdit = () => {
+    const notify = useNotify();
+    const redirect = useRedirect();
+    const onSuccess = () => {
+        notify('Todo Updated');
+        redirect('/todo');
+    };
     const { data: choices, isLoading: isLoadingChoices } = useGetList('category');
     const { data: pickers, isLoading: isLoadingPicker } = useGetList('user');
-    const [username, setUsername] = useState();
+    const { id } = useParams();
+    const data = useGetOne('todo', { id: id });
+    const td = data;
+    const [username, setUsername] = useState(td.data.user.username);
     
     const handleSelectUser = (event) => {
         setUsername(event.target.value);
     }
-
     const filterCategories = (category, username) => {
         return category?.filter(category => {
             return category?.user?.username === username;
         });
     }
-
     const useCategories = filterCategories(choices, username);
     return (
-        <Edit>
+        <Edit onSuccess={onSuccess}>
             <SimpleForm>
                 <TextInput source="description" />
                 <DateTimeInput source="targetDate" />
                 <SelectInput
+                    label="Username"
                     source="user.username"
                     onChange={handleSelectUser}
                     choices={pickers}
@@ -71,6 +83,7 @@ export const TodoEdit = () => {
                     {
                         ({ formData }) => formData.user.username &&
                             <SelectInput
+                                label="Category"
                                 source="category.id"
                                 choices={useCategories}
                                 optionText="name"
@@ -84,6 +97,12 @@ export const TodoEdit = () => {
     )
 };
 export const TodoCreate = () => {
+    const notify = useNotify();
+    const redirect = useRedirect();
+    const onSuccess = () => {
+        notify('Todo created');
+        redirect('/todo');
+    };
     const { data: choices, isLoading: isLoadingChoices } = useGetList('category');
     const { data: pickers, isLoading: isLoadingPicker } = useGetList('user');
     const [username, setUsername] = useState('');
@@ -103,11 +122,10 @@ export const TodoCreate = () => {
 
 
     return (
-        <Create>
+        <Create mutationOptions={{ onSuccess }}>
             <SimpleForm>
                 <TextInput source="description" />
                 <DateTimeInput source="targetDate" />
-                <span>User:</span>
                 <SelectInput
                     source="username"
                     onChange={handleSelectUser}

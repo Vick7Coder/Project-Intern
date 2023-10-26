@@ -29,7 +29,7 @@ public class RegistrationCompleteEventListener implements ApplicationListener<On
         user = event.getUser();
         String token = UUID.randomUUID().toString();
         verificationTokenService.SavedVerificationToken(user, token);
-        String url =event.getApplicationUrl()+"/api/auth/register/verify-email?token="+token;
+        String url =event.getApplicationUrl()+"/api/v1/auth/register/verify-email?token="+token;
         try {
             sendVerificationMail(url);
         }catch (MessagingException | UnsupportedEncodingException exception){
