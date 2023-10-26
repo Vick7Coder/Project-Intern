@@ -1,7 +1,9 @@
 package com.hieuph.todosmanagement.Filter.Category;
 
 import com.hieuph.todosmanagement.entity.Category;
+import com.hieuph.todosmanagement.entity.User;
 import com.hieuph.todosmanagement.specification.GenericSpecification;
+import com.hieuph.todosmanagement.specification.SpecificationRelation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
@@ -13,6 +15,8 @@ import java.util.List;
 public class GenericCategorySpecification {
     @Autowired
     private GenericSpecification<Category> genericSpecification;
+    @Autowired
+    private SpecificationRelation<Category, User> catJoinUser;
 
     public Specification<Category> generic(CategoryFilter categoryFilter){
         Specification<Category> specification = null;
@@ -20,6 +24,10 @@ public class GenericCategorySpecification {
         if(categoryFilter.getName() != null){
             specifications.add(genericSpecification.like(CategoryFilter.FIELD_NAME, "%"+ categoryFilter.getName()+"%"));
         }
+        if(categoryFilter.getUser() !=null){
+            specifications.add(catJoinUser.joinEqual(CategoryFilter.FIELD_USER,"id",categoryFilter.getUser()));
+        }
+
         List<Specification<Category>> result = new ArrayList<>();
 
         for (int i = 0; i < specifications.size(); i++) {

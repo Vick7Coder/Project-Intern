@@ -10,5 +10,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class CategoryFilter {
     public static final String FIELD_NAME = "name";
+    public static final String FIELD_USER = "user";
     private String name;
+    private Long user;
 }

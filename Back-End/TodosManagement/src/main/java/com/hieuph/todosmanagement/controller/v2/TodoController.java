@@ -101,7 +101,7 @@ public class TodoController {
             pagingRequest.setSorter(sorter);
             List<Todo> todoList = todoService.getAll(_filter, pagingRequest);
             if (todoList == null){
-                throw new CustomExceptionRuntime(200, "Empty Category");
+                return ResponseEntity.ok(null);
             }
             return ResponseEntity.ok(todoList);
         }catch (JsonProcessingException exception){
