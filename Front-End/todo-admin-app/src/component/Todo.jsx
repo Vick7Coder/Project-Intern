@@ -1,5 +1,5 @@
 import { useState } from "react";
-
+import { Box, Typography } from '@mui/material';
 import { useParams } from 'react-router-dom'
 import {
     List,
@@ -18,7 +18,8 @@ import {
     Edit,
     useGetOne,
     useNotify,
-    useRedirect
+    useRedirect,
+    CreateButton
 } from "react-admin";
 export const CateFilter = () => {
     const { data: choices, isLoading: isLoadingChoices } = useGetList('category');
@@ -51,9 +52,20 @@ const TodoFilter = [
     <UserFilter label="User" alwaysOn />,
 
 ];
+const Empty = () => (
+    <Box textAlign="center" m={1}>
+        <Typography variant="h4" paragraph>
+            No Todo 
+        </Typography>
+        <Typography variant="body1">
+            Create one or import from a file
+        </Typography>
+        <CreateButton />
+    </Box>
+);
 export const TodoList = () => (
 
-    <List filters={TodoFilter}>
+    <List sort={{ field: 'targetDate', order: 'ASC' }} filters={TodoFilter}>
         <Datagrid>
             <TextField source="description" />
             <DateField source="createDate" />
