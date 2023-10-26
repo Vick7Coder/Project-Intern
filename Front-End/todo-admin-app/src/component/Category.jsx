@@ -8,12 +8,26 @@ import {
     EditButton,
     TextInput,
     SelectInput,
-    useGetList,
-    useRecordContext
+    useGetList
 } from "react-admin";
 
+
+export const UserFilter = () => {
+    const { data: pickers, isLoading: isLoadingPicker } = useGetList('user');
+    return (
+        <SelectInput
+            source="user"
+            choices={pickers}
+            optionText="username"
+            optionValue="id"
+            isLoading={isLoadingPicker}
+        />
+    )
+};
+
 const CategoryFilters = [
-    <TextInput source="name" label="Search" alwaysOn />
+    <TextInput source="name" label="Search" alwaysOn />,
+    <UserFilter label="User" alwaysOn/>
 ];
 
 export const CategoryList = () => (

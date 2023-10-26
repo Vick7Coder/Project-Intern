@@ -22,33 +22,34 @@ import {
 } from "react-admin";
 export const CateFilter = () => {
     const { data: choices, isLoading: isLoadingChoices } = useGetList('category');
-    return(
+    return (
         <SelectInput
-                                source="category"
-                                choices={choices}
-                                optionText="name"
-                                optionValue="id"
-                                isLoading={isLoadingChoices}
-                            />
+            source="category"
+            choices={choices}
+            optionText="name"
+            optionValue="id"
+            isLoading={isLoadingChoices}
+        />
     )
 };
 export const UserFilter = () => {
     const { data: pickers, isLoading: isLoadingPicker } = useGetList('user');
-    return(
+    return (
         <SelectInput
-        source="user"
-        choices={pickers}
-        optionText="username"
-        optionValue="id"
-        isLoading={isLoadingPicker}
-    />
+            source="user"
+            choices={pickers}
+            optionText="username"
+            optionValue="id"
+            isLoading={isLoadingPicker}
+        />
     )
 };
 
 const TodoFilter = [
     <TextInput source="description" label="Search" alwaysOn />,
-    <CateFilter label="Category"/>,
-    <UserFilter label="User"/>
+    <CateFilter label="Category" alwaysOn />,
+    <UserFilter label="User" alwaysOn />,
+
 ];
 export const TodoList = () => (
 
@@ -78,7 +79,7 @@ export const TodoEdit = () => {
     const data = useGetOne('todo', { id: id });
     const td = data;
     const [username, setUsername] = useState(td.data.user.username);
-    
+
     const handleSelectUser = (event) => {
         setUsername(event.target.value);
     }
