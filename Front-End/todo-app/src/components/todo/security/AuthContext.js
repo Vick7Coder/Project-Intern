@@ -8,7 +8,7 @@ export const useAuth = () => useContext(AuthContext)
 
 //2: Share the created context with other component
 export default function AuthProvider({ children }) {
-    // Put some state in the context
+    // Put check auth state in the context
     const [isAuthenticated, setAuthenticated] = useState(false)
     async function login(usernameInput, password) {
 
@@ -16,7 +16,7 @@ export default function AuthProvider({ children }) {
 
             const response = await executeJwtAuthenticationService(usernameInput, password)
 
-            if(response.status==200){
+            if(response.status===200){
                 
                 setAuthenticated(true)
 
@@ -33,7 +33,8 @@ export default function AuthProvider({ children }) {
 
    async function logout() {
        try{
-         await executeLogoutService(); // Send request to backend to invalidate session.
+         await executeLogoutService(); 
+         // Send request to backend to invalidate session.
          setAuthenticated(false);
        }
        catch(error){
