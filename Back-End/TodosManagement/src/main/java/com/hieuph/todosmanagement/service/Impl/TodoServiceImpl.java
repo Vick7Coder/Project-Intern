@@ -6,6 +6,7 @@ import com.hieuph.todosmanagement.Filter.User.GenericUserSpecification;
 import com.hieuph.todosmanagement.dto.request.Paging.Pagination;
 import com.hieuph.todosmanagement.dto.request.Paging.PagingRequest;
 import com.hieuph.todosmanagement.dto.request.TodoDto;
+import com.hieuph.todosmanagement.dto.request.UpdateTodoDto;
 import com.hieuph.todosmanagement.entity.Category;
 import com.hieuph.todosmanagement.entity.Note;
 import com.hieuph.todosmanagement.entity.Todo;
@@ -104,19 +105,19 @@ public class TodoServiceImpl implements TodoService {
     }
 
     @Override
-    public void update(int id, TodoDto todoDto) {
+    public void update(int id, UpdateTodoDto todoDto) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
 
         Date targetDate;
-        Integer cate = Integer.parseInt(todoDto.getCatId());
+//        Integer cate = Integer.parseInt(todoDto.getCatId());
         try{
             targetDate = sdf.parse(todoDto.getTargetDate());
             Todo todo = this.findById(id);
             todo.setDescription(todoDto.getDescription());
             todo.setTargetDate(targetDate);
-            Category category = categoryRepository.findById(cate)
-                    .orElseThrow(() -> new NotFoundException("Not Found Category!"));
-            todo.setCategory(category);
+//            Category category = categoryRepository.findById(cate)
+//                    .orElseThrow(() -> new NotFoundException("Not Found Category!"));
+            todo.setCategory(todoDto.getCategory());
             todoRepository.save(todo);
         }
         catch (Exception e){

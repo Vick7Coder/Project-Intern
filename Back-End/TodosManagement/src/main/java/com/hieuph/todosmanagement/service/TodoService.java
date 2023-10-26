@@ -4,6 +4,7 @@ import com.hieuph.todosmanagement.Filter.Todo.TodoFilter;
 import com.hieuph.todosmanagement.dto.request.CategoryDto;
 import com.hieuph.todosmanagement.dto.request.Paging.PagingRequest;
 import com.hieuph.todosmanagement.dto.request.TodoDto;
+import com.hieuph.todosmanagement.dto.request.UpdateTodoDto;
 import com.hieuph.todosmanagement.entity.Category;
 import com.hieuph.todosmanagement.entity.Todo;
 import com.hieuph.todosmanagement.entity.User;
@@ -22,7 +23,7 @@ public interface TodoService {
     List<Todo> getALlFinished(Integer userId);
 
     Todo create(TodoDto todoDto, User user);
-    void update(int id, TodoDto todoDto);
+    void update(int id, UpdateTodoDto todoDto);
 
     Todo findById(int id);
     void delete(int id);

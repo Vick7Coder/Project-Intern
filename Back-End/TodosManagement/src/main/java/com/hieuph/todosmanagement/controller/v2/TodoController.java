@@ -7,6 +7,7 @@ import com.hieuph.todosmanagement.Filter.User.UserFilter;
 import com.hieuph.todosmanagement.dto.request.Paging.PagingRequest;
 import com.hieuph.todosmanagement.dto.request.Paging.Sorter;
 import com.hieuph.todosmanagement.dto.request.TodoDto;
+import com.hieuph.todosmanagement.dto.request.UpdateTodoDto;
 import com.hieuph.todosmanagement.dto.response.MessageResponse;
 import com.hieuph.todosmanagement.entity.Todo;
 import com.hieuph.todosmanagement.entity.User;
@@ -46,7 +47,7 @@ public class TodoController {
         return ResponseEntity.ok(new MessageResponse("Delete Todo Successfully"));
     }
     @PutMapping("/{id}")
-    public ResponseEntity<?> update(@PathVariable int id, @Valid @RequestBody TodoDto todoDto){
+    public ResponseEntity<?> update(@PathVariable int id, @Valid @RequestBody UpdateTodoDto todoDto){
         todoService.update(id, todoDto);
         return ResponseEntity.ok(todoService.findById(id));
     }
