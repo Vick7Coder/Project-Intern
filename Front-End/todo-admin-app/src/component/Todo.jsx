@@ -11,7 +11,6 @@ import {
     Create,
     SimpleForm,
     TextInput,
-    ReferenceInput,
     SelectInput,
     useGetList,
     FormDataConsumer,
@@ -21,11 +20,35 @@ import {
     useNotify,
     useRedirect
 } from "react-admin";
+export const CateFilter = () => {
+    const { data: choices, isLoading: isLoadingChoices } = useGetList('category');
+    return(
+        <SelectInput
+                                source="category"
+                                choices={choices}
+                                optionText="name"
+                                optionValue="id"
+                                isLoading={isLoadingChoices}
+                            />
+    )
+};
+export const UserFilter = () => {
+    const { data: pickers, isLoading: isLoadingPicker } = useGetList('user');
+    return(
+        <SelectInput
+        source="user"
+        choices={pickers}
+        optionText="username"
+        optionValue="id"
+        isLoading={isLoadingPicker}
+    />
+    )
+};
 
 const TodoFilter = [
     <TextInput source="description" label="Search" alwaysOn />,
-    <ReferenceInput source="category" recordRepresentation="name" label="Category" reference="category" />,
-    <ReferenceInput source="user" label="User" reference="user" />
+    <CateFilter label="Category"/>,
+    <UserFilter label="User"/>
 ];
 export const TodoList = () => (
 
