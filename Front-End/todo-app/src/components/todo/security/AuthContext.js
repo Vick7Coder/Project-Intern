@@ -1,6 +1,6 @@
 import { createContext, useContext, useState } from "react";
 import { executeJwtAuthenticationService, executeLogoutService } from "../api/AuthenticationApiService";
-
+//Using Context
 //1:  Create a context
 export const AuthContext = createContext()
 
@@ -8,7 +8,7 @@ export const useAuth = () => useContext(AuthContext)
 
 //2: Share the created context with other component
 export default function AuthProvider({ children }) {
-    // Put check auth state in the context
+    // Put check auth state in the context 
     const [isAuthenticated, setAuthenticated] = useState(false)
     async function login(usernameInput, password) {
 

@@ -19,7 +19,7 @@ public class TodosManagementApplication {
 				registry.addMapping("/**")
 						.allowedMethods("*")
 						.allowedHeaders("*")
-						.allowedOrigins("http://localhost:3000")
+						.allowedOrigins("http://localhost:3000", "http://localhost:3006")
 						.allowCredentials(true)
 						.exposedHeaders("Access-Control-Expose-Headers", "Content-Range");;
 			}

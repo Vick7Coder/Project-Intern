@@ -46,7 +46,6 @@ export default function TodoApp() {
 
 
 
-
                         <Route path='/welcome' element={
                             <AuthenticatedRoute>
                                 <WelcomeComponent />
