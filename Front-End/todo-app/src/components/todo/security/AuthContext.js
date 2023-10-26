@@ -1,6 +1,6 @@
 import { createContext, useContext, useState } from "react";
 import { executeJwtAuthenticationService, executeLogoutService } from "../api/AuthenticationApiService";
-//Using Context
+//REACT - CONTEXT
 //1:  Create a context
 export const AuthContext = createContext()
 
