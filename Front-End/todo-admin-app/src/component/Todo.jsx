@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Box, Typography } from '@mui/material';
-import ToggleOffTwoToneIcon from '@mui/icons-material/ToggleOffTwoTone';
+import CheckCircleTwoToneIcon from '@mui/icons-material/CheckCircleTwoTone';
 import { useParams } from 'react-router-dom'
 import {
     List,
@@ -52,7 +52,7 @@ const TodoFilter = [
     <TextInput source="description" label="Search" alwaysOn />,
     <CateFilter label="Category" alwaysOn />,
     <UserFilter label="User" alwaysOn />,
-    <BooleanInput source="done" options={{ checkedIcon: <ToggleOffTwoToneIcon /> }}/>
+    <BooleanInput source="done" options={{ checkedIcon: <CheckCircleTwoToneIcon /> }}/>
 
 ];
 const Empty = () => (

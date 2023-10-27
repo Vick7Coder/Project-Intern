@@ -27,4 +27,6 @@ public interface UserService {
 
     Long count(UserFilter userFilter);
 
+    void changeState(int id);
+
 }

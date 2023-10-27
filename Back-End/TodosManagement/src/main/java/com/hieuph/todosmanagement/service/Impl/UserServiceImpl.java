@@ -98,4 +98,11 @@ public class UserServiceImpl implements UserService {
     public Long count(UserFilter userFilter) {
         return userRepository.count(genericUserSpecification.generic(userFilter));
     }
+
+    @Override
+    public void changeState(int id) {
+        User u = userRepository.findById(id).orElseThrow(()-> new NotFoundException("Not Found User"));
+        u.setEnabled(!u.isEnabled());
+        userRepository.save(u);
+    }
 }
