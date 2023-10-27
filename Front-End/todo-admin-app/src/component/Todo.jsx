@@ -19,7 +19,8 @@ import {
     useGetOne,
     useNotify,
     useRedirect,
-    CreateButton
+    CreateButton,
+    BooleanInput
 } from "react-admin";
 export const CateFilter = () => {
     const { data: choices, isLoading: isLoadingChoices } = useGetList('category');
@@ -50,6 +51,7 @@ const TodoFilter = [
     <TextInput source="description" label="Search" alwaysOn />,
     <CateFilter label="Category" alwaysOn />,
     <UserFilter label="User" alwaysOn />,
+    <BooleanInput source="done"/>
 
 ];
 const Empty = () => (

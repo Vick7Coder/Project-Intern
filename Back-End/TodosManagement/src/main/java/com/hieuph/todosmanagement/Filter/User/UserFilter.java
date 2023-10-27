@@ -12,7 +12,11 @@ public class UserFilter {
 
     public static final String FIELD_email = "email";
 
+    public static final String FIELD_ENABLE = "enabled";
+
     private String username;
 
     private String email;
+
+    private Boolean enabled;
 }

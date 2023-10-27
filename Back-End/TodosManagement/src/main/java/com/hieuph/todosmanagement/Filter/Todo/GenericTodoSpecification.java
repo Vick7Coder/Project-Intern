@@ -36,6 +36,13 @@ public class GenericTodoSpecification {
         if (todoFilter.getCategory() != null) {
             specifications.add(todojoinEqualCategory.joinEqual(TodoFilter.FIELD_CATEGORY, "id", todoFilter.getCategory()));
         }
+        if (todoFilter.getDone() != null){
+            if (todoFilter.getDone().equals(true)) {
+                specifications.add(genericSpecification.equals(TodoFilter.FIELD_DONE, true));
+            } else if (todoFilter.getDone().equals(false)) {
+                specifications.add(genericSpecification.equals(TodoFilter.FIELD_DONE, false));
+            }
+        }
 
         List<Specification<Todo>> result = new ArrayList<>();
 

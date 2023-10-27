@@ -6,7 +6,8 @@ import {
     BooleanField,
     TextInput,
     useGetList,
-    SelectInput
+    SelectInput,
+    BooleanInput
 } from "react-admin";
 
 
@@ -25,6 +26,7 @@ export const UserFilter = () => {
 const UFilter = [
     <TextInput source="email" label="Email" alwaysOn />,
     <UserFilter label="Username" alwaysOn />,
+    <BooleanInput source="enabled"/>
 ];
 
 

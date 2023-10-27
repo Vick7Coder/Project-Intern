@@ -27,6 +27,14 @@ public class GenericUserSpecification {
             specifications.add(genericSpecification.like(UserFilter.FIELD_email, "%"+userFilter.getEmail()+"%"));
         }
 
+        if (userFilter.getEnabled() != null){
+            if (userFilter.getEnabled().equals(true)) {
+                specifications.add(genericSpecification.equals(UserFilter.FIELD_ENABLE, true));
+            } else if (userFilter.getEnabled().equals(false)) {
+                specifications.add(genericSpecification.equals(UserFilter.FIELD_ENABLE, false));
+            }
+        }
+
         List<Specification<User>> result = new ArrayList<>();
 
         for (int i = 0; i < specifications.size(); i++) {
