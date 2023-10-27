@@ -1,5 +1,3 @@
-import { AuthProvider } from "react-admin";
-
 export const authProvider = {
     // called when the user attempts to log in
     login: async ({ username, password }) =>  {
@@ -33,6 +31,7 @@ export const authProvider = {
         const status = error.status;
         if (status === 401 || status === 403) {
             localStorage.removeItem('auth');
+            document.cookie.removeItem('babysharkdodododo');
             return Promise.reject({ redirectTo: '/credentials-required' });
         }
         // other error code (404, 500, etc): no need to log out
