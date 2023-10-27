@@ -75,7 +75,7 @@ public class CategoryServiceImpl implements CategoryService {
         }
         Category newCat = new Category();
         newCat.setName(categoryDto.getName());
-        newCat.setEnabled(categoryDto.isEnabled());
+        newCat.setEnabled(true);
         newCat.setUser(managedUser.get());
         return categoryRepository.save(newCat);
     }
@@ -84,6 +84,7 @@ public class CategoryServiceImpl implements CategoryService {
     public void update(int id, CategoryDto categoryDto) {
         Category cat = categoryRepository.findById(id).orElseThrow(()-> new NotFoundException("Not Found Category with ID: "+id));
         cat.setName(categoryDto.getName());
+        cat.setEnabled(categoryDto.isEnabled());
         categoryRepository.save(cat);
     }
 

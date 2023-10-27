@@ -11,6 +11,8 @@ import lombok.Setter;
 public class CategoryFilter {
     public static final String FIELD_NAME = "name";
     public static final String FIELD_USER = "user";
+    public static final String FIELD_ENABLE = "enabled";
     private String name;
     private Long user;
+    private Boolean enabled;
 }

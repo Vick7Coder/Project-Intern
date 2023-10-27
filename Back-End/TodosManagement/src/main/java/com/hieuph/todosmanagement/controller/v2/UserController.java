@@ -92,9 +92,14 @@ public class UserController {
         userService.changePassword(user,passwordDto.getNewPassword());
         return ResponseEntity.ok().body(new MessageResponse("Password changed successfully!"));
     }
-    @PutMapping("/change-state/{id}")
+    @GetMapping("/{id}")
+    public ResponseEntity<?> get(@PathVariable int id){
+        User user = userService.get(id);
+        return ResponseEntity.ok(user);
+    }
+    @PutMapping("/{id}")
     public ResponseEntity<?> changeState(@PathVariable int id){
         userService.changeState(id);
-        return ResponseEntity.ok(new MessageResponse("Enable successfully!"));
+        return ResponseEntity.ok(userService.get(id));
     }
 }

@@ -1,5 +1,6 @@
 package com.hieuph.todosmanagement.Filter.Category;
 
+import com.hieuph.todosmanagement.Filter.User.UserFilter;
 import com.hieuph.todosmanagement.entity.Category;
 import com.hieuph.todosmanagement.entity.User;
 import com.hieuph.todosmanagement.specification.GenericSpecification;
@@ -26,6 +27,13 @@ public class GenericCategorySpecification {
         }
         if(categoryFilter.getUser() !=null){
             specifications.add(catJoinUser.joinEqual(CategoryFilter.FIELD_USER,"id",categoryFilter.getUser()));
+        }
+        if (categoryFilter.getEnabled() != null){
+            if (categoryFilter.getEnabled().equals(true)) {
+                specifications.add(genericSpecification.equals(CategoryFilter.FIELD_ENABLE, true));
+            } else if (categoryFilter.getEnabled().equals(false)) {
+                specifications.add(genericSpecification.equals(CategoryFilter.FIELD_ENABLE, false));
+            }
         }
 
         List<Specification<Category>> result = new ArrayList<>();

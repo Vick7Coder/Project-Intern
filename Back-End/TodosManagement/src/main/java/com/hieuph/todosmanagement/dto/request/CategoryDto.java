@@ -9,6 +9,6 @@ public class CategoryDto {
     @NotEmpty(message = "Empty name!")
     @NotNull(message = "Null name!")
     private String name;
-    private boolean enabled = true;
+    private boolean enabled;
     private String username;
 }

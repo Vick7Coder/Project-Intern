@@ -8,7 +8,9 @@ import {
     EditButton,
     TextInput,
     SelectInput,
-    useGetList
+    useGetList,
+    BooleanInput,
+    BooleanField
 } from "react-admin";
 
 
@@ -27,7 +29,8 @@ export const UserFilter = () => {
 
 const CategoryFilters = [
     <TextInput source="name" label="Search" alwaysOn />,
-    <UserFilter label="User" alwaysOn/>
+    <UserFilter label="User" alwaysOn/>,
+    <BooleanInput source="enabled"/>
 ];
 
 export const CategoryList = () => (
@@ -35,6 +38,7 @@ export const CategoryList = () => (
         <Datagrid>
             <TextField source="name" />
             <TextField source="user.username" />
+            <BooleanField source="enabled"/>
             <EditButton />
         </Datagrid>
     </List>
@@ -46,6 +50,7 @@ export const CategoryEdit = () => (
         <SimpleForm>
             <TextInput source="id" disabled />
             <TextInput source="name" />
+            <BooleanInput source="enabled"/>
         </SimpleForm>
     </Edit>
 );

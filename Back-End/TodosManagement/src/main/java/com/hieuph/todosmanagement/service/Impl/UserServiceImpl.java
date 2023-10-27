@@ -77,6 +77,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User get(int id) {
+        return userRepository.findById(id).orElseThrow(()-> new NotFoundException("Not Found User"));
+    }
+
+    @Override
     public void changePassword(User theUser, String newPassword) {
         theUser.setPassword(passwordEncoder.encode(newPassword));
         userRepository.save(theUser);

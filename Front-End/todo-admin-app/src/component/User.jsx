@@ -7,7 +7,10 @@ import {
     TextInput,
     useGetList,
     SelectInput,
-    BooleanInput
+    BooleanInput,
+    Edit,
+    SimpleForm,
+    EditButton
 } from "react-admin";
 
 
@@ -36,6 +39,17 @@ export const UserList = () => (
             <TextField source="username"/>
             <EmailField source="email" />
             <BooleanField source="enabled"/>
+            <EditButton/>
         </Datagrid>
     </List>
+);
+
+export const UserEdit = () => (
+    <Edit>
+        <SimpleForm>
+            <TextInput source="username" disabled />
+            <TextInput source="email" disabled />
+            <BooleanInput source="enabled"/>
+        </SimpleForm>
+    </Edit>
 );

@@ -20,9 +20,14 @@ public class UserDto {
     @NotEmpty(message = "Thiếu Password")
     @Size(min = 5, max = 15, message = "Password chứa từ 5 đến 15 ký tự")
     private String password;
-    @NotNull(message = "Thiếu Username")
-    @NotEmpty(message = "Thiếu Username")
+    @NotNull(message = "Thiếu email")
+    @NotEmpty(message = "Thiếu email")
     @Email(message = "Sai!")
     private String email;
+
+    private boolean enabled;
+
+
+
 
 }

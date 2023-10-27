@@ -17,7 +17,7 @@ public interface UserService {
     Optional<User> getUserByEmail(String email);
     List<User> getAll(UserFilter userFilter, PagingRequest pagingRequest);
 
-
+    User get(int id);
 
     void changePassword(User theUser, String newPassword);
 
