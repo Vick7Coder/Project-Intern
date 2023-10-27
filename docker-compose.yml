@@ -1,7 +1,7 @@
 services:
   back-end:
     build:
-      context: Back-End/TodosManagement
+      context: Back-End
       dockerfile: Dockerfile
     ports:
       - 8019:8019
