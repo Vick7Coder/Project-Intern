@@ -10,7 +10,9 @@ import {
     BooleanInput,
     Edit,
     SimpleForm,
-    EditButton
+    EditButton,
+    Toolbar,
+    SaveButton
 } from "react-admin";
 
 
@@ -44,9 +46,15 @@ export const UserList = () => (
     </List>
 );
 
+const UserEditToolbar = () => (
+    <Toolbar>
+        <SaveButton/>
+    </Toolbar>
+);
+
 export const UserEdit = () => (
     <Edit>
-        <SimpleForm>
+        <SimpleForm toolbar={<UserEditToolbar/>}>
             <TextInput source="username" disabled />
             <TextInput source="email" disabled />
             <BooleanInput source="enabled"/>

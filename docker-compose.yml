@@ -16,6 +16,14 @@ services:
       context: todo-app
       dockerfile: Dockerfile
     ports:
+      - 80:3006
+    depends_on:
+      - back-end
+  front-end-admin:
+    build: 
+      context: todo-admin-app
+      dockerfile: dockerfile
+    ports:
       - 80:3000
     depends_on:
       - back-end
