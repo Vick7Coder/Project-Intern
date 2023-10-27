@@ -91,8 +91,8 @@ public class CategoryController {
             sorter.setBy(_sort.get(1));
             pagingRequest.setSorter(sorter);
             List<Category> categories = categoryService.getAll(_filter, pagingRequest);
-            if (categories.size()<1){
-                throw new CustomExceptionRuntime(200, "Empty Category");
+            if (categories == null){
+                categories = new ArrayList<>();
             }
             return ResponseEntity.ok(categories);
         }catch (JsonProcessingException exception){

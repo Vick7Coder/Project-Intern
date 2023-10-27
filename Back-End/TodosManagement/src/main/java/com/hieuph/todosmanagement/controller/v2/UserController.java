@@ -70,8 +70,8 @@ public class UserController {
             sorter.setBy(_sort.get(1));
             pagingRequest.setSorter(sorter);
             List<User> userList = userService.getAll(_filter, pagingRequest);
-            if (userList.size()<1){
-                throw new CustomExceptionRuntime(200, "Empty Category");
+            if (userList == null){
+                userList = new ArrayList<>();
             }
             return ResponseEntity.ok(userList);
         }catch (JsonProcessingException exception){

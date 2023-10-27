@@ -65,7 +65,7 @@ const Empty = () => (
 );
 export const TodoList = () => (
 
-    <List sort={{ field: 'targetDate', order: 'ASC' }} filters={TodoFilter}>
+    <List emptyWhileLoading empty={Empty} sort={{ field: 'targetDate', order: 'ASC' }} filters={TodoFilter}>
         <Datagrid>
             <TextField source="description" />
             <DateField source="createDate" />

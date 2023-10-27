@@ -101,7 +101,7 @@ public class TodoController {
             pagingRequest.setSorter(sorter);
             List<Todo> todoList = todoService.getAll(_filter, pagingRequest);
             if (todoList == null){
-                return ResponseEntity.ok(null);
+                todoList = new ArrayList<>();
             }
             return ResponseEntity.ok(todoList);
         }catch (JsonProcessingException exception){
