@@ -1,7 +1,7 @@
 services:
   back-end:
     build:
-      context: TodosManagement
+      context: Back-End/TodosManagement
       dockerfile: Dockerfile
     ports:
       - 8019:8019
@@ -13,7 +13,7 @@ services:
       - postgres-db
   front-end:
     build:
-      context: todo-app
+      context: Front-End/todo-app
       dockerfile: Dockerfile
     ports:
       - 80:3006
@@ -21,8 +21,8 @@ services:
       - back-end
   front-end-admin:
     build: 
-      context: todo-admin-app
-      dockerfile: dockerfile
+      context: Front-End/todo-admin-app
+      dockerfile: Dockerfile
     ports:
       - 80:3000
     depends_on:
