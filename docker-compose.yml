@@ -16,7 +16,7 @@ services:
       context: Front-End/todo-app
       dockerfile: Dockerfile
     ports:
-      - 80:3006
+      - 8020:3006
     depends_on:
       - back-end
   front-end-admin:
@@ -24,7 +24,7 @@ services:
       context: Front-End/todo-admin-app
       dockerfile: Dockerfile
     ports:
-      - 80:3000
+      - 8021:3000
     depends_on:
       - back-end
   postgres-db:
