@@ -76,7 +76,7 @@ public class TodoController {
                     " Please send the JWT of the user who needs to view the wishlist along with the request.");
         }
         User user = ((UserDetailImpl) authentication.getPrincipal()).getUser();
-        List<Todo> todos = todoService.getAllByCategory(user, id);
+        List<Todo> todos = todoService.getAllByCategory(id);
         if (todos.size()<1){
             return ResponseEntity.ok(new MessageResponse("Empty Todo!"));
         }

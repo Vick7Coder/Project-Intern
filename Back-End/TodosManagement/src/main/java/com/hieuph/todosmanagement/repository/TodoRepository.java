@@ -20,4 +20,7 @@ public interface TodoRepository extends JpaRepository<Todo, Integer>, JpaSpecifi
     @Query("select t from Todo t where t.user.id = ?1 and t.isDone = true")
     List<Todo> findAllFinished(Integer userId);
 
+    @Query("select t from Todo t where t.category.id = ?1")
+    List<Todo> findAllByCate(Integer catId);
+
 }

@@ -6,12 +6,14 @@ import com.hieuph.todosmanagement.dto.request.CategoryDto;
 import com.hieuph.todosmanagement.dto.request.Paging.Pagination;
 import com.hieuph.todosmanagement.dto.request.Paging.PagingRequest;
 import com.hieuph.todosmanagement.entity.Category;
+import com.hieuph.todosmanagement.entity.Todo;
 import com.hieuph.todosmanagement.entity.User;
 import com.hieuph.todosmanagement.exception.BadRequestException;
 import com.hieuph.todosmanagement.exception.NotFoundException;
 import com.hieuph.todosmanagement.repository.CategoryRepository;
 import com.hieuph.todosmanagement.repository.UserRepository;
 import com.hieuph.todosmanagement.service.CategoryService;
+import com.hieuph.todosmanagement.service.TodoService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,6 +29,8 @@ public class CategoryServiceImpl implements CategoryService {
     private CategoryRepository categoryRepository;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private TodoService todoService;
     @Autowired
     private GenericCategorySpecification genericCategorySpecification;
 
@@ -97,6 +101,10 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public void delete(int id) {
+        List<Todo> listTodo = todoService.getAllByCategory(id);
+        for(Todo todo:listTodo){
+            todoService.delete(todo.getId());
+        }
 
         categoryRepository.deleteById(id);
 

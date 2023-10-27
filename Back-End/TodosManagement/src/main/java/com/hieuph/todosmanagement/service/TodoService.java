@@ -18,6 +18,8 @@ public interface TodoService {
 
     List<Todo> getAllByCategory(User user, Integer catId);
 
+    List<Todo> getAllByCategory(Integer catId);
+
     List<Todo> getAllUnfinished(Integer userId);
 
     List<Todo> getALlFinished(Integer userId);

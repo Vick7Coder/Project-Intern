@@ -62,11 +62,8 @@ public class TodoServiceImpl implements TodoService {
     }
 
     @Override
-    public List<Todo> getAllByCategory(User user, Integer catId) {
-        List<Todo> todoList = this.getAll(user);
-        Predicate<? super Todo> predicate=
-                td -> td.getCategory().getId() == catId;
-        return todoList.stream().filter(predicate).toList();
+    public List<Todo> getAllByCategory(Integer catId) {
+        return todoRepository.findAllByCate(catId);
     }
 
     @Override
@@ -109,14 +106,11 @@ public class TodoServiceImpl implements TodoService {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
 
         Date targetDate;
-//        Integer cate = Integer.parseInt(todoDto.getCatId());
         try{
             targetDate = sdf.parse(todoDto.getTargetDate());
             Todo todo = this.findById(id);
             todo.setDescription(todoDto.getDescription());
             todo.setTargetDate(targetDate);
-//            Category category = categoryRepository.findById(cate)
-//                    .orElseThrow(() -> new NotFoundException("Not Found Category!"));
             todo.setCategory(todoDto.getCategory());
             todoRepository.save(todo);
         }

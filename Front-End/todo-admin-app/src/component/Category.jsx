@@ -45,15 +45,18 @@ export const CategoryList = () => (
 );
 
 
-export const CategoryEdit = () => (
-    <Edit>
-        <SimpleForm>
-            <TextInput source="id" disabled />
-            <TextInput source="name" />
-            <BooleanInput source="enabled"/>
-        </SimpleForm>
-    </Edit>
-);
+export const CategoryEdit = () => {
+    return (
+        <Edit>
+            <SimpleForm>
+                <TextInput source="id" disabled />
+                <TextInput source="name" />
+                <TextInput source="user.username" disabled/>
+                <BooleanInput source="enabled" disabled/>
+            </SimpleForm>
+        </Edit>
+    )
+};
 
 export const CategoryCreate = () => {
     const {data: pickers, isLoading: isLoadingPicker} = useGetList('user');
